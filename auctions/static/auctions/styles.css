@@ -1,0 +1,24 @@
+body {
+    padding: 10px;
+}
+
+.auctionbox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-sizing: border-box; 
+    border: 1px solid rgba(0, 0, 0, 0.1); 
+    padding: 10px;
+    border-radius: 5px;
+}
+
+img {
+    max-width: 500px;
+    max-height: 333px;
+}
+
+.imagebox {
+    width: 500px;
+    height: 333px;
+    text-align: center;
+}

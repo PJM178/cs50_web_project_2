@@ -1,0 +1,179 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if winner %}
+    {% for item in winner %}
+    {% if request.user == item.winner and request.user != auction.lister %}
+    <h1>Congratulations, {{ request.user }}, you won the item!</h1>
+    {% endif %}
+    {% endfor %}
+    <div style="color: rgba(170, 137, 145, 1);">
+    <h2>Listing: {{ auction.name }}</h2>
+    {{ testi }}
+    {% if watchlist_user %}
+    <form style="margin-bottom: .5rem;" method="post">
+        {% csrf_token %}
+        {{ form.field.as_hidden }}
+        {% if not watchlist %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 0.2);" type="submit">Watchlist</button>
+        {% elif not watchlist_user %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 0.2);" type="submit">Watchlist</button>
+        {% else %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 1);" type="submit">Watchlist</button>
+        {% endif %}
+    </form>
+    {% else %}
+    <form style="margin-bottom: .5rem;" method="post">
+        {% csrf_token %}
+        {{ form.field.as_hidden }}
+        {% if not watchlist %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 0.2);" type="button">Watchlist</button>
+        {% elif not watchlist_user %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 0.2);" type="button">Watchlist</button>
+        {% else %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 1);" type="button">Watchlist</button>
+        {% endif %}
+    </form>
+    {% endif %}
+    <div class="imagebox"><img style="opacity: 0.5;" src="{{ auction.image_url }}" alt=""></div>
+    <div>
+        <div style="word-break: break-all;">{{ auction.description }}</div>
+        <p></p>
+        <div style="font-weight: bold; font-size: x-large; margin-bottom: 10px;">${{ auction.price }}</div>
+
+    </div>
+    <div>
+        <form method="post">
+            <div>BID NUMBER PLACEHOLDER TEXT</div>
+            {% if request.user != auction.lister %}     
+            {% csrf_token %}
+            {{ bid_form }}
+            <p></p>
+            <input name="bidlist" type="button" value="Place Bid">
+            {% endif %}
+            {% if request.user == auction.lister %}
+            {% csrf_token %}
+            <p></p>
+            <input name="closeauction" type="button" value="Close Auction">
+            {% endif %}
+        </form>
+    <br>
+    </div>
+    <div>
+        <h3>Details</h3>
+        <ul>
+            <li>Listed by: {{ auction.lister }}</li>
+            {% if auction.get_category_display %}
+            <li>Category: {{ auction.get_category_display }}</li>
+            {% else %}
+            <li>Category: No category Listed</li>
+            {% endif %}
+            <li>Time listed: {{ auction.time }}</li>
+        </ul>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input name="comments" type="button" value="Comment">
+        </form>
+    </div>
+    <div>
+    <h4>Comments</h4>
+    {% for comment in comments %}
+    <div style="display: flex; flex-wrap: wrap; box-sizing: border-box; 
+    border: 1px solid rgba(0, 0, 0, 0.1); margin-bottom: 5px; 
+    padding-left: 5px;">
+        <div>
+            {{ comment.time }} &nbsp {{ comment.user }}: &nbsp
+        </div>
+        <div style="word-break: break-all; width: 65%;">
+            {{ comment.comment }}
+        </div>       
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+    {% else %}
+    <h2>Listing: {{ auction.name }}</h2>
+    {{ testi }}
+    <form style="margin-bottom: .5rem;" method="post">
+        {% csrf_token %}
+        {{ form.field.as_hidden }}
+        {% if not watchlist %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 0.2);" type="submit">Watchlist</button>
+        {% elif not watchlist_user %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 0.2);" type="submit">Watchlist</button>
+        {% else %}
+        <button name="watchlist" style="border-radius: 5px; border-width: 0px; color: white; 
+        background-color: rgba(255, 31, 87, 1);" type="submit">Watchlist</button>
+        {% endif %}
+    </form>
+    <div class="imagebox"><img src="{{ auction.image_url }}" alt=""></div>
+    <div>
+        <div style="word-break: break-all;">{{ auction.description }}</div>
+        <p></p>
+        <div style="font-weight: bold; font-size: x-large; margin-bottom: 10px;">${{ auction.price }}</div>
+
+    </div>
+    <div>
+        <form method="post">
+            <div>BID NUMBER PLACEHOLDER TEXT</div>
+            {% if request.user != auction.lister %}     
+            {% csrf_token %}
+            {{ bid_form }}
+            <p></p>
+            <input name="bidlist" type="submit" value="Place Bid">
+            {% endif %}
+            {% if request.user == auction.lister %}
+            {% csrf_token %}
+            <p></p>
+            <input name="closeauction" type="submit" value="Close Auction">
+            {% endif %}
+        </form>
+    <br>
+    </div>
+    <div>
+        <h3>Details</h3>
+        <ul>
+            <li>Listed by: {{ auction.lister }}</li>
+            {% if auction.get_category_display %}
+            <li>Category: {{ auction.get_category_display }}</li>
+            {% else %}
+            <li>Category: No category Listed</li>
+            {% endif %}
+            <li>Time listed: {{ auction.time }}</li>
+        </ul>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input name="comments" type="submit" value="Comment">
+        </form>
+    </div>
+    <div>
+    <h4>Comments</h4>
+    {% for comment in comments %}
+    <div style="display: flex; flex-wrap: wrap; box-sizing: border-box; 
+    border: 1px solid rgba(0, 0, 0, 0.1); margin-bottom: 5px; 
+    padding-left: 5px;">
+        <div>
+            {{ comment.time }} &nbsp {{ comment.user }}: &nbsp
+        </div>
+        <div style="word-break: break-all; width: 65%;">
+            {{ comment.comment }}
+        </div>       
+    </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}

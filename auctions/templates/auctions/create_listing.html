@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>Create a new listing</h2>
+    <form method="post">
+        <table>
+        {% csrf_token %}
+        {{ form.as_table }}
+        {{ category.as_table }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+   <!-- <form method="post">
+        {% csrf_token %}
+        {% for field in form%}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+        {% endfor %}
+        </table>
+        <input type="submit" value="Submit">
+    </form>-->
+{% endblock %}
