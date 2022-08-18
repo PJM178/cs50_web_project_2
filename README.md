@@ -1,4 +1,4 @@
-# CS50's Web Programming with Python and JavaScript - Project 2
+# CS50's Web Programming with Python and JavaScript - Project 2 - Ebay
 
 This is a repository for project 2 of CS50's Web Programming with Python and JavaScript. The goal of the project was to "design an eBay-like e-commerce auction site that will allow users to post auction listings, place bids on listings, comment on those listings, and add listings to a “watchlist.”". The purpose of the project was to familiarize oneself with SQL using Django's models. It sort of expands the previous project (1) to include databases - storing, modifying and calling data that the user of the website writes there.
 
